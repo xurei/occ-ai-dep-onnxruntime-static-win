@@ -7,11 +7,11 @@ New-Item release\$Configuration\bin -ItemType Directory -Force
 New-Item release\$Configuration\include -ItemType Directory -Force
 New-Item release\$Configuration\lib -ItemType Directory -Force
 
-python onnxruntime\tools\ci_build\build.py --cmake_generator "Visual Studio 17 2022" --build_dir build --config $Configuration --parallel --skip_tests --skip_submodule_sync --use_dml
+python onnxruntime\tools\ci_build\build.py --cmake_generator "Visual Studio 17 2022" --build_dir build --config $Configuration --parallel --skip_tests --skip_submodule_sync --use_dml --build_shared_lib
 
 $binArray =
-  "build\packages\Microsoft.AI.DirectML.1.13.1\bin\x64-win\DirectML.dll",
-  "build\packages\Microsoft.AI.DirectML.1.13.1\bin\x64-win\DirectML.lib"
+  "build\packages\Microsoft.AI.DirectML.1.15.4\bin\x64-win\DirectML.dll",
+  "build\packages\Microsoft.AI.DirectML.1.15.4\bin\x64-win\DirectML.lib"
 
 $includeArray =
   "onnxruntime\include\onnxruntime\core\framework\provider_options.h",

@@ -11,11 +11,11 @@ on:
       - "main"
 
 env:
-  ONNXRUNTIME_VERSION: "v1.17.3"
+  ONNXRUNTIME_VERSION: "v1.23.2"
 
 jobs:
   BuildWindows:
-    runs-on: "windows-2022"
+    runs-on: "windows-2025"
 
     strategy:
       matrix:
@@ -36,13 +36,18 @@ jobs:
       - name: "Checkout"
         uses: "actions/checkout@v4"
 
+      - name: Setup Python 3.14
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.14'
+
       - name: "Download the ONNX Runtime source code"
         run: "git clone -b ${{ env.ONNXRUNTIME_VERSION }} --recurse-submodules --depth 1 https://github.com/microsoft/onnxruntime.git"
 
       - name: "Run Build-Windows.ps1"
         run: "./Build-Windows.ps1 -Configuration ${{ matrix.config }} -Version ${{ steps.get-version.outputs.version }}"
 
-      - uses: "actions/upload-artifact@v3"
+      - uses: "actions/upload-artifact@v5"
         with:
           name: "onnxruntime-win-${{ matrix.config }}"
           path: "release/*.zip"
@@ -73,7 +78,7 @@ jobs:
         id: "get-version"
 
       - name: "Download build artifacts"
-        uses: "actions/download-artifact@v3"
+        uses: "actions/download-artifact@v6"
 
       - name: "Create Release"
         uses: "softprops/action-gh-release@1e07f4398721186383de40550babbdf2b84acfc5"
@@ -83,3 +88,4 @@ jobs:
           name: "${{ steps.get-version.outputs.version }}"
           files: |
             ${{ github.workspace }}/**/*.zip
+
