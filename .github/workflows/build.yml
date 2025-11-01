@@ -49,7 +49,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: "build/${{ matrix.config }}"
-          key: "${{ matrix.config }}-${{ steps.get-version.outputs.version }}-win"
+          key: "${{ matrix.config }}-${{ env.ONNXRUNTIME_VERSION }}-win"
 
       - name: "Run Build-Windows.ps1"
         run: "./Build-Windows.ps1 -Configuration ${{ matrix.config }} -Version ${{ steps.get-version.outputs.version }}"
