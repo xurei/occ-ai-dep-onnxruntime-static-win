@@ -44,6 +44,13 @@ jobs:
       - name: "Download the ONNX Runtime source code"
         run: "git clone -b ${{ env.ONNXRUNTIME_VERSION }} --recurse-submodules --depth 1 https://github.com/microsoft/onnxruntime.git"
 
+      - name: Cache Build
+        id: cache-primes
+        uses: actions/cache@v4
+        with:
+          path: "build/${{ matrix.config }}"
+          key: "${{ matrix.config }}-${{ steps.get-version.outputs.version }}-win"
+
       - name: "Run Build-Windows.ps1"
         run: "./Build-Windows.ps1 -Configuration ${{ matrix.config }} -Version ${{ steps.get-version.outputs.version }}"
 
